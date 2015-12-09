@@ -1,0 +1,58 @@
+<style>
+    .carousel-caption {
+        font-family: arial narrow;
+        max-width: 550px;
+        padding: 0 20px;
+        margin:0 auto;
+        margin-top: 200px;
+        text-align:center;
+    }
+    .jumbotron {
+        position: relative;
+        background-image: url("../pics/m2.jpg");
+        width: 100%;
+        height: 80%;
+        background-size: cover;
+        overflow: hidden;
+        color: #FFFFFF; 
+        font-family: 'Helvetica Neue';
+        font-size: 500;
+        font-weight: 100;
+        margin: 0 auto;
+        text-align: center;
+        white-space: nowrap;
+    }
+  
+
+    h1 { 
+        color: #000000; 
+        font-family: 'Helvetica Neue';
+        font-size: 200;
+        font-weight: 100;
+        margin: 0 auto;
+        text-align: center;
+        white-space: nowrap;
+    }
+	h2 {
+		text-align: center;
+        color: #000000; 
+        font-family: arial narrow;
+		font-size: 50px;								
+    }
+    h3 {
+    	text-align: center;
+        color: #000000; 
+        font-family: 'Helvetica Neue';
+        font-size: 50;
+        font-weight: 400;
+		font-size: 40px;
+    }
+      h4 {
+        text-align: center;
+        color: #FFFFFF; 
+        font-family: 'Helvetica Neue';
+        font-size: 50;
+        font-weight: 400;
+        font-size: 40px;
+    }
+</style>
