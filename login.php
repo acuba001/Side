@@ -39,7 +39,7 @@ include 'includes/overall/header.php';
 										Return
 								</a>
 								<button type="submit" class="btn btn-primary" >SignIn</button>
-                                 <a href = 'forgot_pass.php'> Forgot Password? Click Here</a>
+                                 <a href = 'forgot_pass.php'>Forgot Password? Click Here</a>
 								<br>
 							</form>
 						</div>

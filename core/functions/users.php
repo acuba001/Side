@@ -175,6 +175,14 @@ function updateUserPassword($user_id, $password){
 	return $data;
 }//eom
 
+function updateUserNPassword($username, $password){	
+
+	$query = 	"UPDATE `users` SET `password` = '$password' WHERE `username` = $username";
+
+	$data = mysqli_query($GLOBALS['dbConnection'], $query);
+	return $data;
+}//eom
+
 /* function updateUserPassword($user_id, $password){	
 
 	$user_id = (int)$user_id;
@@ -185,6 +193,11 @@ function updateUserPassword($user_id, $password){
 	return $data;
 }//eom */
 
+function updatePasscode($code, $username){
+	
+	$query = "UPDATE users SET passreset='$code' WHERE username='$username'";
+	return mysqli_query($GLOBALS['dbConnection'], $query)or die(mysqli_error($GLOBALS['dbConnection']));
+}
 
 function logged_in(){
 	return (isset($_SESSION['user_id'])) ? true : false;
@@ -925,5 +938,42 @@ function rating(){
 
 
 	header("location:".$_POST['page'].".php");
+}
+
+function reset_pass_init($get_username, $get_code){
+	
+	$query = mysqli_query($GLOBALS['dbConnection'], "SELECT * FROM users WHERE username='$get_username'")or die(mysqli_error($GLOBALS['dbConnection']));
+	
+	$row = mysqli_fetch_assoc($query);
+	
+	$db_code = $row['passreset'];
+	$db_username = $row['username'];
+		
+
+	if($get_username == $db_username && $get_code == $db_code)
+	{
+		echo
+			"<form action ='pass_reset_complete.php?code=<?php echo $get_code; ?>' method = 'POST'>
+				Enter a new password
+				<br>
+				<input type = 'password' name ='newpass'>
+				<br>
+				Re- enter your password
+				<br>
+				<input type = 'password' name='newpass1'>
+				<br>
+				<input type ='hidden' name = 'username' value = '<?php echo $get_username; ?>'>
+				<input type ='submit' value ='Update Password!'>
+			</form>";
+		
+
+	}
+}
+
+function get_user_info($username){
+	
+	$query = mysqli_query($GLOBALS['dbConnection'], "SELECT * FROM users  WHERE username = '$username'")or die(mysqli_error($GLOBALS['dbConnection']));
+	
+	return mysqli_fetch_assoc($query);
 }
 ?>

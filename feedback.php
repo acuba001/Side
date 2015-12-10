@@ -65,7 +65,7 @@ include 'includes/overall/header.php';
 							<div class="form-group">
 							<div class = "col-sm-10">
 							<label for = "area">Message</label>
-							<textarea class = "form-control"id = "area" rows = "3"></textarea>
+							<textarea class = "form-control" id = "area" rows = "3" name="message"></textarea>
 						</div>
 
 <!-- <p>First Name:
