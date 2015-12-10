@@ -157,7 +157,7 @@ if(isset($_GET['success']) && empty($_GET['success'])){
 		/* $enc_password = md5($password);
  */
 
-		if($info['username'] && $info['email'] && $info['password'])
+		if($info['username'] && $info['email'] && $info['password'] && empty($errors))
 		{
 
 			$info['confirmcode'] = rand();
@@ -175,15 +175,19 @@ if(isset($_GET['success']) && empty($_GET['success'])){
 				"
 				This is an automated email.Please Do Not reply  to this email
 				Click on the link below or pasted into your browser
-				http://localhost/DynaMathVersion1/emailconfirm.php?username=".$info['username']."code=".$info['confirmcode']
+				http://localhost/DynaMathVersion1.3/emailconfirm.php?username=".$info['username']."&code=".$info['confirmcode']
 				;
 
 				$subject = "Please confirm your email";
-				$headers = "From: Do not reply";
+				$headers = "From:dynamicmathematicsprinciples@gmail.com";
 
-				mail($info['email'], $subject, $message, $headers); 
+				if(mail($info['email'], $subject, $message, $headers)){
+					echo "<p>Please Check your Email</p>";
+				} else{
+					echo "<p>Email verification failed to send</p>";
+				}
 
-			    echo "<p>Please Check your Email</p>";
+			    
 		}
 		echo output_errors($errors);
 	}	

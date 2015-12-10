@@ -1,7 +1,7 @@
 <!-- <header class="intro-header" style="background-image: url('img/post-bg.jpg')"> -->
     
 <header>
-	<?php include 'includes/visitorHeader.php';	?>
+	<?php include 'includes/visitorHeader.php'; ?>
 </header>
 
 

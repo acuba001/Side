@@ -44,6 +44,8 @@ include 'includes/overall/header.php';
 							 </div>
 							 <br>
 							 <center><iframe width="854" height="480" src="https://www.youtube.com/embed/V6rbyZnr1sE" frameborder="2" allowfullscreen></iframe></center>
+						<br><br>
+						Click <a href="ArchimedesQ.php">here</a> to fill out a survey about this page for us.
 					</div>
 				</div>
 			</div>

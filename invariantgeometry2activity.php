@@ -1,5 +1,6 @@
 <?php 
 include 'includes/overall/header.php';
+include 'core/init.php';
 
 $msg = "";
 ?>
@@ -64,7 +65,7 @@ $msg = "";
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="page-header " style = "margin-top:5px; ">
-							<h3> Invariant Geometry Activity </h3>
+							<h3> Invariant Geometry Activity 2</h3>
 						</div>
 						
 						<div class="page-body" style = "margin-top:5px; ">
@@ -211,6 +212,9 @@ $msg = "";
 								<div class="col-md-4">
 									<h3> Quiz: </h3>
 									Click <a href="startActivity2Quiz.php">here</a> for a quiz related to this activity.
+									<br>
+									<h3> Rate Activity: </h3>
+									<?php rate("invariantgeometry2activity"); ?>
 								</div>
 							</div>
 						 </div>

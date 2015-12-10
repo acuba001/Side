@@ -35,8 +35,8 @@
 	
     <ul class="nav navbar-nav navbar-right">
     	<?php
-			$loggedStatus = $_SESSION["logged_in"];
-			if($loggedStatus)
+		
+			if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"])
 			{
 				?>
                 <li class="inactive" > 

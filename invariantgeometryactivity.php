@@ -1,5 +1,6 @@
 <?php 
 include 'includes/overall/header.php';
+include 'core/init.php';
 
 $msg = "";
 ?>
@@ -209,6 +210,9 @@ $msg = "";
 								<div class="col-md-4">
 									<h3> Quiz: </h3>
 									Click <a href="startActivity1Quiz.php">here</a> for a quiz related to this activity.
+									<br>
+									<h3> Rate Activity: </h3>
+									<?php rate("invariantgeometryactivity"); ?>
 								</div>
 							</div>
 						 </div>

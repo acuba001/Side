@@ -1,6 +1,11 @@
 <?php
 include 'core/init.php'; 
 include 'includes/overall/header.php'; 
+
+
+if(!isset($_SESSION['logged_in'])){
+	header("location:login.php");
+}
 ?>
 <html>
 	<body>
@@ -26,16 +31,13 @@ include 'includes/overall/header.php';
 									<div class = "Content">
 										<h2>Archimedes Questionaire</h2>
 										<div class = "entry">
-											<?php get_questions(39, 3); ?>
+											<?php get_questions($_SESSION['user_id'], 3); ?>
 										</div>
 									</div>
 								</div>
 							</div>   <!-- END ENTRY -->
 						</div> <!-- End content -->
-
 					</div> <!-- End wrapContent -->
-
-				 <!-- End footer -->
 				</div> <!-- end wrapoverall -->
 			</div>
 		</div>

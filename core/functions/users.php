@@ -2,6 +2,7 @@
 
 $GLOBALS['dbConnection'] = mysqli_connect("localhost", "root", "", "lr") or die("Cannot connect to database.");
 
+mysqli_query ( $GLOBALS['dbConnection'], 'SET NAMES utf8' );
 
 function register_user($register_data){
 
@@ -219,7 +220,7 @@ function email_exists($email){
 
 function user_active($username){
 	$username = sanitize($username);
-	$res = mysqli_query($GLOBALS['dbConnection'], "SELECT COUNT(`user_id`) FROM `users` WHERE `username` = '$username' AND `active` = 1");
+	$res = mysqli_query($GLOBALS['dbConnection'], "SELECT COUNT(`user_id`) FROM `users` WHERE `username` = '$username' AND `active` = 1")or die(mysqli_error($GLOBALS['dbConnection']));
 	$res->data_seek(0);
     $datarow = $res->fetch_array();
 	return ($datarow[0] == 1) ? true : false;
@@ -233,7 +234,7 @@ function user_active($username){
 
 function user_id_from_username($username){
 	$username = sanitize($username);
-	$res = mysqli_query($GLOBALS['dbConnection'], "SELECT `user_id` FROM `users` WHERE `username` = '$username'");
+	$res = mysqli_query($GLOBALS['dbConnection'], "SELECT `user_id` FROM `users` WHERE `username` = '$username'")or die(mysqli_error($GLOBALS['dbConnection']));
 	$res->data_seek(0);
     $datarow = $res->fetch_array();
 	return $datarow['user_id'];
@@ -251,7 +252,7 @@ function login($emailOrUsername, $password)
                      FROM `users` 
                      WHERE username ='".$emailOrUsername."' or email='".$emailOrUsername."'";
       //querying database
-      $result     = mysqli_query($GLOBALS['dbConnection'], $query);
+      $result     = mysqli_query($GLOBALS['dbConnection'], $query)or die(mysqli_error($GLOBALS['dbConnection']));
       $row        = mysqli_fetch_array( $result, MYSQLI_ASSOC );
       $rowResult  = array_filter($row);
       //check if no user exist with credentials provided
@@ -311,7 +312,7 @@ function get_questions($user_id, $survey_id)
 	$questionIDList = array();
 
 	$query = "SELECT * FROM survey_questions WHERE survey_id='$survey_id'";
-	$res = mysqli_query($GLOBALS['dbConnection'], $query);
+	$res = mysqli_query($GLOBALS['dbConnection'], $query)or die(mysqli_error($GLOBALS['dbConnection']));
 	if($res)
 	{
 ?>
@@ -383,7 +384,7 @@ function get_questions($user_id, $survey_id)
 
 			$query2 = "INSERT INTO survey_answers (question_id, user_id, answer_body) 
 						VALUES ('".$currQuestionID."', '".$user_id."', '".$curr_answer."')";
-			mysqli_query($GLOBALS['dbConnection'], $query2);
+			mysqli_query($GLOBALS['dbConnection'], $query2)or die(mysqli_error($GLOBALS['dbConnection']));
 		}
 		// while($row = mysql_fetch_array($result, MYSQL_ASSOC))
 		// {
@@ -399,8 +400,11 @@ function get_questions($user_id, $survey_id)
 		// 				VALUES ('".$currQuestionID."', '".$user_id."', '".$curr_answer."')";
 		// 	mysql_query($query);
 		// }
-		}
-	
+		
+		?>
+			<script type="text/javascript">location.href = 'http://localhost/DynaMathVersion1.3/index.php';</script>
+		<?php
+	}
 }
 
 /* function get_questions($user_id, $survey_id)
@@ -502,7 +506,7 @@ function get_questions($user_id, $survey_id)
 
 function delete_user_account($userID)
 {
-$del_from_db= mysqli_query($GLOBALS['dbConnection'], "DELETE FROM users WHERE user_id = '$userID'");
+$del_from_db= mysqli_query($GLOBALS['dbConnection'], "DELETE FROM users WHERE user_id = '$userID'")or die(mysqli_error($GLOBALS['dbConnection']));
 echo"<p>Deleted";
 
 }
@@ -517,7 +521,7 @@ echo
 
 function confirmcode_from_username($username){
 	$username = sanitize($username);
-	$res = mysqli_query($GLOBALS['dbConnection'], "SELECT `confirmcode` FROM `users` WHERE `username` = '$username'");
+	$res = mysqli_query($GLOBALS['dbConnection'], "SELECT `confirmcode` FROM `users` WHERE `username` = '$username'")or die(mysqli_error($GLOBALS['dbConnection']));
 	$res->data_seek(0);
     $datarow = $res->fetch_array();
 	return $datarow['confirmcode'];
@@ -527,9 +531,9 @@ function activateUser($username){
 
 	$username = sanitize($username);
 
-	$query = 	"UPDATE `users` SET `active` = '1' WHERE `username` = $username";
+	$query = 	"UPDATE users SET active = '1' WHERE username = '$username'";
 
-	$data = mysqli_query($GLOBALS['dbConnection'], $query);
+	$data = mysqli_query($GLOBALS['dbConnection'], $query) or die(mysqli_error($GLOBALS['dbConnection']))or die(mysqli_error($GLOBALS['dbConnection']));
 	return $data;
 }
 
@@ -854,5 +858,72 @@ function search_results($keyword){
 	}else {
 		echo "No results found";
 	}
+}
+
+function rate($page){
+	
+	$find_data = mysqli_query($GLOBALS['dbConnection'], "SELECT * FROM rates WHERE activity='$page'")or die(mysqli_error($GLOBALS['dbConnection']));
+
+	$row = mysqli_fetch_assoc($find_data);
+	$id = $row['id'];
+	$name_of_activity = $row['nameofactivity'];
+	$activity = $row['activity'];
+	if($row['hits'] != 0){
+		$current_rating = $row['rating']/$row['hits'];
+	}else{
+		$current_rating = 0;
+	}
+	$current_hits = $row['hits'];
+
+	echo "
+
+	<form  action = 'rate.php' method= 'POST'>
+			<select name = 'rating'>
+				<option>1</option>
+				<option>2</option>	
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+				<option>6</option>
+				<option>7</option>
+				<option>8</option>
+				<option>9</option>
+				<option>10</option>
+
+	</select>		
+		<input type = 'hidden' value = '$activity' name = 'activity'>
+		<input type = 'hidden' value = '$page' name = 'page'>
+		<input type = 'submit'value = 'Rate!'></br> Current Rating:"; echo round ($current_rating,1); echo "
+			</form>
+
+	";
+	
+}
+
+function rating(){
+
+	$activity = $_POST['activity'];
+	$post_rating = $_POST['rating'];
+
+	$find_data = mysqli_query($GLOBALS['dbConnection'], "SELECT * FROM  rates WHERE activity ='$activity'");
+
+	$row = mysqli_fetch_assoc($find_data);
+	
+	$id = $row['id'];
+	$current_rating = $row['rating'];
+	$current_hits = $row['hits'];
+
+
+		
+
+	$new_hits = $current_hits + 1;
+	$update_hits = mysqli_query($GLOBALS['dbConnection'], "UPDATE rates  SET hits = '$new_hits' WHERE id ='$id'");
+
+	$new_rating = $post_rating + $current_rating;
+
+	$update_rating =mysqli_query($GLOBALS['dbConnection'], "UPDATE rates SET rating = '$new_rating' WHERE id = '$id'");
+
+
+	header("location:".$_POST['page'].".php");
 }
 ?>
